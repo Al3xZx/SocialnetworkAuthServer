@@ -1,8 +1,7 @@
 package com.alessandro.socialnetworkauthserver.dto;
 
-import lombok.Data;
-
 import java.io.Serializable;
+import lombok.Data;
 
 @Data
 public class JwtTokenRequest implements Serializable {

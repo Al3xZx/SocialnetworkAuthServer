@@ -1,8 +1,7 @@
 package com.alessandro.socialnetworkauthserver.security;
 
-import lombok.Data;
-
 import java.util.List;
+import lombok.Data;
 
 @Data
 public class Utenti {

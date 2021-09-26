@@ -18,53 +18,55 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class JWTWebSecurityConfig extends WebSecurityConfigurerAdapter 
-{
+public class JWTWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	@Autowired
-	@Qualifier("customUserDetailsService")
-	private UserDetailsService userDetailsService;
-	
-	@Value("${sicurezza.uri}")
-	private String authenticationPath;
+  @Autowired
+  @Qualifier("customUserDetailsService")
+  private UserDetailsService userDetailsService;
 
-	@Autowired
-	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception 
-	{
-		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoderBean());
-	}
+  @Value("${sicurezza.uri}")
+  private String authenticationPath;
 
-	@Bean
-	public PasswordEncoder passwordEncoderBean() 
-	{
-		return new BCryptPasswordEncoder();
-	}
+  @Autowired
+  public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+    auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoderBean());
+  }
 
-	@Bean
-	@Override
-	public AuthenticationManager authenticationManagerBean() throws Exception 
-	{
-		return super.authenticationManagerBean();
-	}
+  @Bean
+  public PasswordEncoder passwordEncoderBean() {
+    return new BCryptPasswordEncoder();
+  }
 
-	@Override
-	protected void configure(HttpSecurity httpSecurity) throws Exception {
-		httpSecurity.csrf().disable()
-		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-		.and()
-		.authorizeRequests().anyRequest().authenticated();
+  @Bean
+  @Override
+  public AuthenticationManager authenticationManagerBean() throws Exception {
+    return super.authenticationManagerBean();
+  }
 
-	}
+  @Override
+  protected void configure(HttpSecurity httpSecurity) throws Exception {
+    httpSecurity
+        .csrf()
+        .disable()
+        .sessionManagement()
+        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        .and()
+        .authorizeRequests()
+        .anyRequest()
+        .authenticated();
+  }
 
-	@Override
-	public void configure(WebSecurity webSecurity) throws Exception {
-		webSecurity.ignoring().antMatchers(HttpMethod.POST, authenticationPath)
-				.antMatchers(HttpMethod.OPTIONS, "/**")
-				.and().ignoring()
-				.antMatchers(HttpMethod.GET);
-	}
+  @Override
+  public void configure(WebSecurity webSecurity) throws Exception {
+    webSecurity
+        .ignoring()
+        .antMatchers(HttpMethod.POST, authenticationPath)
+        .antMatchers(HttpMethod.OPTIONS, "/**")
+        .and()
+        .ignoring()
+        .antMatchers(HttpMethod.GET);
+  }
 }

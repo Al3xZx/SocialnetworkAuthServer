@@ -1,5 +1,7 @@
 package com.alessandro.socialnetworkauthserver.security;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.client.support.BasicAuthenticationInterceptor;
@@ -9,9 +11,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
-import java.net.URI;
-import java.net.URISyntaxException;
 
 @Service("customUserDetailsService")
 @Slf4j
